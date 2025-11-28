@@ -1,0 +1,58 @@
+# Archivos y directorios a ignorar en DVC
+
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Airflow
+airflow.db
+airflow.cfg
+dags/
+plugins/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentación
+*.md
+Explicativos/
+
+# Datos temporales (se versionan con DVC)
+# NOTA: Los archivos .pickle en data/08_reporting/ están definidos como outputs en dvc.yaml
+# y deben ser rastreados por DVC, por lo que no se ignoran aquí
+

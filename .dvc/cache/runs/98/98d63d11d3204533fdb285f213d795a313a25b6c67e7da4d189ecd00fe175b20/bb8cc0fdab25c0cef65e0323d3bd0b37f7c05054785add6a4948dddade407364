@@ -1,0 +1,16 @@
+cmd: python -m kedro run --pipeline data_processing
+deps:
+- path: data/01_raw/matriz-venta.csv
+  hash: md5
+  md5: cb7bbc2cdd907a9878bb9d04b2441770
+  size: 11119714
+- path: src/proyecto_kedro/pipelines/data_processing
+  hash: md5
+  md5: dae00bfecc29660a3ba2eecf7c1c5bdf.dir
+  size: 7081
+  nfiles: 3
+outs:
+- path: data/03_primary/ventas_preprocesadas.parquet
+  hash: md5
+  md5: 3549e2f3b45e7c6fe9305da2f6f222fd
+  size: 667624

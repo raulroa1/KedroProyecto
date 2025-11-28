@@ -1,0 +1,49 @@
+# Dockerfile para Apache Airflow con soporte para Kedro
+FROM apache/airflow:2.8.1-python3.11
+
+# Cambiar a usuario root temporalmente para instalar dependencias
+USER root
+
+# Instalar dependencias del sistema
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    g++ \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Cambiar de vuelta al usuario airflow
+USER airflow
+
+# Copiar requirements del proyecto Kedro (sin kedro-viz por conflicto con Airflow)
+COPY requirements-airflow.txt /tmp/requirements.txt
+
+# Instalar dependencias de Python
+# Nota: Airflow ya está instalado en la imagen base
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r /tmp/requirements.txt && \
+    pip install --no-cache-dir apache-airflow-providers-docker && \
+    pip install --no-cache-dir psycopg2-binary && \
+    pip install --no-cache-dir "werkzeug<3,>=2.0"
+
+# Copiar el proyecto Kedro al contenedor
+COPY --chown=airflow:root . /opt/airflow/kedro_project
+
+# Establecer el directorio de trabajo
+WORKDIR /opt/airflow/kedro_project
+
+# Variables de entorno para Airflow
+ENV AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
+ENV AIRFLOW__CORE__ENABLE_XCOM_PICKLING=True
+ENV AIRFLOW__LOGGING__LOGGING_LEVEL=INFO
+ENV AIRFLOW__LOGGING__LOGFILE_PATH=/opt/airflow/logs/airflow.log
+
+# Crear directorio de logs
+RUN mkdir -p /opt/airflow/logs && \
+    chown -R airflow:root /opt/airflow/logs
+
+# Volumen para persistir logs y datos
+VOLUME ["/opt/airflow/logs", "/opt/airflow/kedro_project/data"]
+

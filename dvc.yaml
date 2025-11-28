@@ -1,0 +1,70 @@
+stages:
+  data_processing:
+    cmd: python -m kedro run --pipeline data_processing
+    deps:
+      - data/01_raw/matriz-venta.csv
+      - src/proyecto_kedro/pipelines/data_processing
+    outs:
+      - data/03_primary/ventas_preprocesadas.parquet
+
+  clustering:
+    cmd: python -m kedro run --pipeline data_science --from-nodes prepare_clustering_data_node --to-nodes add_clusters_gmm_node
+    deps:
+      - data/03_primary/ventas_preprocesadas.parquet
+      - src/proyecto_kedro/pipelines/data_science
+    outs:
+      - data/06_models/modelo_kmeans.pickle
+      - data/06_models/modelo_dbscan.pickle
+      - data/06_models/modelo_agglomerative.pickle
+      - data/06_models/modelo_gmm.pickle
+      - data/06_models/scaler_clustering.pickle
+      - data/07_model_output/datos_con_clusters_kmeans.parquet
+      - data/07_model_output/datos_con_clusters_dbscan.parquet
+      - data/07_model_output/datos_con_clusters_agglomerative.parquet
+      - data/07_model_output/datos_con_clusters_gmm.parquet
+    metrics:
+      - metrics/clustering.json
+    plots:
+      - plots/clustering/
+
+  classification:
+    cmd: python -m kedro run --pipeline data_science --from-nodes preparar_datos_clasificacion_node --to-nodes evaluar_modelos_clasificacion_node
+    deps:
+      - data/03_primary/ventas_preprocesadas.parquet
+      - src/proyecto_kedro/pipelines/data_science
+    outs:
+      - data/06_models/resultados_clf.pickle
+      - data/07_model_output/metricas_clf.parquet
+    metrics:
+      - metrics/classification.json
+    plots:
+      - plots/classification/
+
+  regression:
+    cmd: python -m kedro run --pipeline data_science --from-nodes preparar_datos_regresion_node --to-nodes evaluar_modelos_regresion_node
+    deps:
+      - data/03_primary/ventas_preprocesadas.parquet
+      - src/proyecto_kedro/pipelines/data_science
+    outs:
+      - data/06_models/resultados_reg.pickle
+      - data/07_model_output/metricas_reg.parquet
+    metrics:
+      - metrics/regression.json
+    plots:
+      - plots/regression/
+
+  reporting:
+    cmd: python -m kedro run --pipeline reporting
+    deps:
+      - data/03_primary/ventas_preprocesadas.parquet
+      - data/06_models
+      - data/07_model_output
+      - src/proyecto_kedro/pipelines/reporting
+    outs:
+      - data/08_reporting/analisis_pipeline_data_processing.pickle
+      - data/08_reporting/analisis_pipeline_clustering.pickle
+      - data/08_reporting/analisis_pipeline_clasificacion.pickle
+      - data/08_reporting/analisis_pipeline_regresion.pickle
+    metrics:
+      - metrics/reporting.json
+

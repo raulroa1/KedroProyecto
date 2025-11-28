@@ -1,0 +1,55 @@
+# Ignorar archivos y directorios en Docker builds
+
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Datos (se montan como volumen)
+data/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Airflow
+airflow.db
+airflow.cfg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentación
+*.md
+Explicativos/
+

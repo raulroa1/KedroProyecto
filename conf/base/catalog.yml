@@ -1,0 +1,302 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+#
+# We support interacting with a variety of data stores including local file systems, cloud, network and HDFS
+#
+# An example data set definition can look as follows:
+#
+#bikes:
+#  type: pandas.CSVDataset
+#  filepath: "data/01_raw/bikes.csv"
+#
+#weather:
+#  type: spark.SparkDataset
+#  filepath: s3a://your_bucket/data/01_raw/weather*
+#  file_format: csv
+#  credentials: dev_s3
+#  load_args:
+#    header: True
+#    inferSchema: True
+#  save_args:
+#    sep: '|'
+#    header: True
+#
+#scooters:
+#  type: pandas.SQLTableDataset
+#  credentials: scooters_credentials
+#  table_name: scooters
+#  load_args:
+#    index_col: ['name']
+#    columns: ['name', 'gear']
+#  save_args:
+#    if_exists: 'replace'
+#    # if_exists: 'fail'
+#    # if_exists: 'append'
+#
+# The Data Catalog supports being able to reference the same file using two different Dataset implementations
+# (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
+# https://docs.kedro.org/en/stable/data/data_catalog.html
+
+companies:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/companies.csv
+
+reviews:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/reviews.csv
+
+shuttles:
+  type: pandas.ExcelDataset
+  filepath: data/01_raw/shuttles.xlsx
+  load_args:
+    engine: openpyxl
+
+preprocessed_companies:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/preprocessed_companies.parquet
+
+preprocessed_shuttles:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/preprocessed_shuttles.parquet
+
+model_input_table:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/model_input_table.parquet
+
+regressor:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regressor.pickle
+  versioned: true
+
+shuttle_passenger_capacity_plot_exp:
+  type: plotly.PlotlyDataset
+  filepath: data/08_reporting/shuttle_passenger_capacity_plot_exp.json
+  versioned: true
+  plotly_args:
+    type: bar
+    fig:
+      x: shuttle_type
+      y: passenger_capacity
+      orientation: h
+    layout:
+      xaxis_title: Shuttles
+      yaxis_title: Average passenger capacity
+      title: Shuttle Passenger capacity
+
+shuttle_passenger_capacity_plot_go:
+  type: plotly.JSONDataset
+  filepath: data/08_reporting/shuttle_passenger_capacity_plot_go.json
+  versioned: true
+
+dummy_confusion_matrix:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/08_reporting/dummy_confusion_matrix.png
+  versioned: true
+
+analisis_pipeline_data_processing:
+  type: pickle.PickleDataset
+  filepath: data/08_reporting/analisis_pipeline_data_processing.pickle
+  versioned: true
+
+analisis_pipeline_clustering:
+  type: pickle.PickleDataset
+  filepath: data/08_reporting/analisis_pipeline_clustering.pickle
+  versioned: true
+
+# Datasets para matriz-venta.csv
+matriz_venta:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/matriz-venta.csv
+
+# Datasets intermedios de data_processing
+productos_limpios:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/productos_limpios.parquet
+
+productos_con_peso:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/productos_con_peso.parquet
+
+productos_normalizados:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/productos_normalizados.parquet
+
+datos_normalizados:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/datos_normalizados.parquet
+
+ventas_preprocesadas:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/ventas_preprocesadas.parquet
+
+# Datasets para data_science - Clasificación
+X_clf:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/X_clf.parquet
+
+y_clf:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/y_clf.parquet
+
+X_clf_proc:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_clf_proc.parquet
+
+y_clf_proc:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_clf_proc.parquet
+
+X_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_train_clf.parquet
+
+X_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test_clf.parquet
+
+y_train_clf:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_train_clf.parquet
+
+y_test_clf:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_test_clf.parquet
+
+resultados_clf:
+  type: pickle.PickleDataset
+  filepath: data/06_models/resultados_clf.pickle
+
+metricas_clf:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/metricas_clf.parquet
+
+# Datasets para data_science - Regresión
+X_reg:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/X_reg.parquet
+
+y_reg:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/y_reg.parquet
+
+X_reg_proc:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_reg_proc.parquet
+
+y_reg_proc:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_reg_proc.parquet
+
+X_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_train_reg.parquet
+
+X_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test_reg.parquet
+
+y_train_reg:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_train_reg.parquet
+
+y_test_reg:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/y_test_reg.parquet
+
+resultados_reg:
+  type: pickle.PickleDataset
+  filepath: data/06_models/resultados_reg.pickle
+
+metricas_reg:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/metricas_reg.parquet
+
+# Datasets para data_science - Clustering
+X_clustering:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/X_clustering.parquet
+
+X_clustering_scaled:
+  type: pandas.ParquetDataset
+  filepath: data/04_feature/X_clustering_scaled.parquet
+
+scaler_clustering:
+  type: pickle.PickleDataset
+  filepath: data/06_models/scaler_clustering.pickle
+
+# Modelos de clustering
+modelo_kmeans:
+  type: pickle.PickleDataset
+  filepath: data/06_models/modelo_kmeans.pickle
+
+labels_kmeans:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/labels_kmeans.pickle
+
+modelo_dbscan:
+  type: pickle.PickleDataset
+  filepath: data/06_models/modelo_dbscan.pickle
+
+labels_dbscan:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/labels_dbscan.pickle
+
+modelo_agglomerative:
+  type: pickle.PickleDataset
+  filepath: data/06_models/modelo_agglomerative.pickle
+
+labels_agglomerative:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/labels_agglomerative.pickle
+
+modelo_gmm:
+  type: pickle.PickleDataset
+  filepath: data/06_models/modelo_gmm.pickle
+
+labels_gmm:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/labels_gmm.pickle
+
+# Métricas de clustering
+metricas_kmeans:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/metricas_kmeans.pickle
+
+metricas_dbscan:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/metricas_dbscan.pickle
+
+metricas_agglomerative:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/metricas_agglomerative.pickle
+
+metricas_gmm:
+  type: pickle.PickleDataset
+  filepath: data/07_model_output/metricas_gmm.pickle
+
+# Datos con clusters
+datos_con_clusters_kmeans:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/datos_con_clusters_kmeans.parquet
+
+datos_con_clusters_dbscan:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/datos_con_clusters_dbscan.parquet
+
+datos_con_clusters_agglomerative:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/datos_con_clusters_agglomerative.parquet
+
+datos_con_clusters_gmm:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/datos_con_clusters_gmm.parquet
+
+analisis_pipeline_clasificacion:
+  type: pickle.PickleDataset
+  filepath: data/08_reporting/analisis_pipeline_clasificacion.pickle
+
+analisis_pipeline_regresion:
+  type: pickle.PickleDataset
+  filepath: data/08_reporting/analisis_pipeline_regresion.pickle

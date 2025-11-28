@@ -1,0 +1,12 @@
+ipython>=8.10
+jupyterlab>=3.0
+notebook
+kedro[jupyter]~=1.0.0
+kedro-datasets[pandas-csvdataset, pandas-exceldataset, pandas-parquetdataset, plotly-plotlydataset, plotly-jsondataset, matplotlib-matplotlibwriter]>=3.0
+# kedro-viz>=6.7.0  # Excluido por conflicto con Airflow (werkzeug)
+numpy>=2.0.0,<3.0.0  # Versión compatible para pickle de scikit-learn
+pyarrow>=18.0.0  # Versión compatible con NumPy 2.x para leer/escribir archivos Parquet
+scikit-learn~=1.5.1
+seaborn~=0.12.1
+matplotlib>=3.4.0
+
