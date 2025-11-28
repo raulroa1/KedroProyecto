@@ -1,43 +1,42 @@
-##########################
+##############################
 # KEDRO PROJECT
+##############################
 
-# ignore all local configuration
+# Ignore all local configuration
 conf/local/**
 !conf/local/.gitkeep
 
-# ignore potentially sensitive credentials files
+# Ignore potentially sensitive credentials files
 conf/**/*credentials*
 
-# ignore everything in the following folders
+# Ignore data but keep folder structure and gitkeep
 data/**
-
-# except their sub-folders
 !data/**/
-
-# also keep all .gitkeep files
 !.gitkeep
 
-# also keep the example dataset
+# Keep example raw datasets
 !data/01_raw/companies.csv
 !data/01_raw/reviews.csv
 !data/01_raw/shuttles.xlsx
 
-# ignore kedro-viz metadata
-.viz
+# Ignore Kedro-Viz metadata
+.viz/
 
-# ignore file based logs
+# Ignore logs (prevents OneDrive issues)
+logs/**
+logs/**/*
 *.log
 
-##########################
-# Common files
+##############################
+# COMMON FILES
+##############################
 
-# IntelliJ
+# IntelliJ / JetBrains
 .idea/
 *.iml
 out/
-.idea_modules/
 
-### macOS
+# macOS
 *.DS_Store
 .AppleDouble
 .LSOverride
@@ -48,7 +47,7 @@ out/
 .*.swo
 .*.swp
 
-# emacs
+# Emacs
 *~
 \#*\#
 /.emacs.desktop
@@ -58,16 +57,19 @@ out/
 # JIRA plugin
 atlassian-ide-plugin.xml
 
-# C extensions
+# Compiled C extensions
 *.so
 
-### Python template
+##############################
+# PYTHON
+##############################
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
+# Packaging
 .Python
 build/
 develop-eggs/
@@ -87,8 +89,6 @@ wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -96,7 +96,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit test / coverage
 htmlcov/
 .tox/
 .coverage
@@ -111,38 +111,45 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
-*.log
+##############################
+# DJANGO (optional)
+##############################
 .static_storage/
 .media/
 local_settings.py
 
-# Flask stuff:
+##############################
+# OTHER PYTHON TOOLS
+##############################
+
+# Flask
 instance/
 .webassets-cache
 
-# Scrapy stuff:
-.scrapy
+# Scrapy
+.scrapy/
 
-# Sphinx documentation
+# Sphinx
 docs/_build/
 
 # PyBuilder
 target/
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Jupyter
+.ipynb_checkpoints/
 
 # pyenv
 .python-version
 
-# celery beat schedule file
+# Celery
 celerybeat-schedule
 
-# SageMath parsed files
+# SageMath
 *.sage.py
 
-# Environments
+##############################
+# ENVIRONMENTS
+##############################
 .env
 .venv
 env/
@@ -151,11 +158,17 @@ ENV/
 env.bak/
 venv.bak/
 
-# mkdocs documentation
-/site
+##############################
+# DOCS / BUILDS
+##############################
+/site/
 
-# mypy
+##############################
+# MYPY
+##############################
 .mypy_cache/
 
-# mlflow local runs
-mlruns/*
+##############################
+# MLflow local runs
+##############################
+mlruns/**
